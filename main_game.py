@@ -3,19 +3,29 @@
 import gametools as gt
 
 
-print('ИГра матриц')
-print('Start')
-print('condithions')
+print('ИГра крестики - нолики')
 
-pole=[]
-matr_a = [[' ', ' ',' ' ],[' ', ' ',' '],[' ', ' ',' ']]
-#rez_matr = mt.add(matr_a, matr_b)
+print('condithions')
+print('number of cells')
+
+gt.print_matrix([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']])
+print('Start')
+matr_a = []
+pole_coord = []
+#
+matr_a = gt.load_new_game()
 gt.print_matrix(matr_a)
-while not gt.game_over(matr_a):
-    print('Player X')
-    print('Enter your move:')
-    pole_row=int(input('row='))
-    pole_col = int(input('col='))
-   #проверка поля
-    matr_a[pole_row][pole_col] = 'x'
-    gt.print_matrix(matr_a)
+p=True
+
+while  p:
+
+    gt.step_game('x',matr_a)
+    if not gt.game_over(matr_a):
+        gt.step_game('y',matr_a)
+        p = True
+    else:
+        print('Game over')
+        p=False
+
+
+
