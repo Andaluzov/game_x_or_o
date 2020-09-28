@@ -24,7 +24,7 @@ def load_new_game():
 
 def param_of_cell(pole):
     pole_coord = []
-    pole_number = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9']]
+    pole_number = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     for i in [0,1,2]:
         for j in [0,1,2]:
             if pole == pole_number[i][j]:
@@ -49,8 +49,8 @@ def transpose(a):
 
     return(a_transp)
 
-def game_over(matr):
-    shablonx=['x','x','x']
+def game_over(gamer, matr):
+    shablonx=['x', 'x', 'x']
     shablono = ['o', 'o', 'o']
     matr_diag = []
     matr_t = transpose(matr)
@@ -59,32 +59,50 @@ def game_over(matr):
     for i in range(3):
         matr_diag.append(matr[i][i])
     if matr_diag == shablonx or matr_diag == shablono:
+        print('Game over,', gamer, 'is a winner')
         return True
     # diagonal obratnaya
     n=2
     for i in [0,1,2]:
         matr_diagt.append(matr[n-i][i])
     if matr_diagt == shablonx or matr_diag == shablono:
-
-       return True
+        print('Game over,', gamer, 'is a winner')
+        return True
     #rows and columns
     for i in range(3):
 
         if matr[i] == shablonx or matr[i] == shablono:
+            print('Game over,', gamer, 'is a winner')
             return True
 
         if matr_t[i] == shablonx or matr_t[i] == shablono:
+            print('Game over,', gamer, 'is a winner')
             return True
+    p_all =  True
+    for i in [0,1,2]:
+        for j in [0,1,2]:
+            if matr[i][j] == ' ':
+                p_all = False
+    if p_all:
+        print('***Game over, No  Winners')
+        return True
 
 
 def step_game(gamer,matr_a):
-
     p = True
-    while p:
+    while p :
         print('Player',gamer.upper())
         print('Enter your move:')
-        pole = input('')
-        pole_coord = param_of_cell(pole)
+        pc = True
+        while pc :
+            pole = input('')
+
+            if not pole in '123456789' or pole == '':
+                print('Enter your move (0-9)')
+            else :
+                pc = False
+
+        pole_coord = param_of_cell(int(pole))
 
         if matr_a[pole_coord[0]][pole_coord[1]] != ' ':
             print('pole zanyato')
@@ -93,5 +111,6 @@ def step_game(gamer,matr_a):
             p = False
             if gamer == 'y':
                 gamer = 'o'
+
             matr_a[pole_coord[0]][pole_coord[1]] = gamer
         print_matrix(matr_a)
